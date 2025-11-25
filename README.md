@@ -30,9 +30,7 @@ A LangGraph-powered system for analyzing communication health in email threads a
 
 4. **Configure environment:**
    ```bash
-   # Copy the example environment file
-   cp .env.example .env
-   
+
    # Edit .env and add your GROQ API key:
    GROQ_API_KEY=your_groq_api_key_here
    ```
@@ -55,11 +53,9 @@ The system uses a sophisticated LangGraph workflow with **conditional routing** 
 ```mermaid
 graph TD
     A[emailParser] --> B{Communication Type}
-    B -->|Email/Mixed| C[sentimentAnalyzer]
-    B -->|Email/Mixed| D[responseTimeAnalyzer]
-    B -->|Email/Mixed| E[conflictDetector]
-    B -->|Meeting Only| C
-    B -->|Meeting Only| E
+    B -->|Both| C[sentimentAnalyzer]
+    B -->|Email Only| D[responseTimeAnalyzer]
+    B -->|Both| E[conflictDetector]
     
     C --> F[healthAggregator]
     D --> F
