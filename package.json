@@ -1,0 +1,31 @@
+{
+  "name": "communication-health-analyzer",
+  "version": "1.0.0",
+  "description": "LangGraph-based communication health analysis for email threads",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "langgraph",
+    "communication",
+    "email",
+    "health",
+    "analysis"
+  ],
+  "author": "Communication Health Team",
+  "license": "MIT",
+  "dependencies": {
+    "@langchain/core": "^0.2.0",
+    "@langchain/langgraph": "^0.0.26",
+    "axios": "^1.6.0",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.0",
+    "joi": "^17.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
