@@ -107,27 +107,13 @@ app.post('/analyze', async (req, res) => {
         
         // Check if GROQ API key is configured
         if (!process.env.GROQ_API_KEY) {
-            console.log('⚠️ GROQ_API_KEY not configured, running simple analysis without LLM...');
-            
-            const mockResponse = {
-                success: true,
-                data: {
-                    conversationId: validatedData.conversationId,
-                    type: validatedData.type,
-                    status: 'processed_without_llm',
-                    message: 'Analysis completed without LLM (GROQ API key not configured)',
-                    overallScore: 75,
-                    breakdown: {
-                        emotionalHealth: { score: 70, weight: 0.20 },
-                        responsivenessHealth: { score: 80, weight: 0.25 },
-                        conflictHealth: { score: 75, weight: 0.30 },
-                        relationshipHealth: { score: 70, weight: 0.25 }
-                    },
-                    processedAt: new Date().toISOString()
-                }
-            };
-            
-            return res.json(mockResponse);
+            console.log('❌ GROQ_API_KEY not configured');
+            return res.status(500).json({
+                success: false,
+                error: 'Configuration Error',
+                message: 'GROQ_API_KEY environment variable is required but not configured',
+                details: 'Please set your GROQ API key in the .env file. Get a free key at https://console.groq.com'
+            });
         }
         
         try {
