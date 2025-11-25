@@ -2,6 +2,8 @@
 
 A LangGraph-powered system for analyzing communication health in email threads and meeting transcripts, providing structured insights into relationship dynamics and communication effectiveness.
 
+Had way more fun that I should have on the project, cool exercise
+
 ## 🚀 Quick Start
 
 ### Prerequisites
