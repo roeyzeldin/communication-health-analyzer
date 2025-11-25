@@ -53,9 +53,9 @@ The system uses a sophisticated LangGraph workflow with **conditional routing** 
 ```mermaid
 graph TD
     A[emailParser] --> B{Communication Type}
-    B -->|Both| C[sentimentAnalyzer]
-    B -->|Email Only| D[responseTimeAnalyzer]
-    B -->|Both| E[conflictDetector]
+    B -->C[sentimentAnalyzer]
+    B -->|Meeting excluded| D[responseTimeAnalyzer]
+    B -->E[conflictDetector]
     
     C --> F[healthAggregator]
     D --> F
@@ -159,17 +159,13 @@ weights = {
 - **Parallel Processing**: Independent analysis nodes can run concurrently
 - **State Management**: Clean separation of concerns with proper channel ownership
 - **Scalability**: Easy to add new analysis dimensions without affecting existing nodes
+- **Assignment**: Was told to use it :)
 
 #### **Why Multi-Dimensional Scoring?**
 Communication health isn't unidimensional. A conversation can have:
 - High sentiment but poor responsiveness
 - Good conflict management but low emotional intelligence
 - Strong relationships but declining engagement patterns
-
-#### **Why Context-Aware Weighting?**
-- **Meetings**: Responsiveness is irrelevant; focus on real-time dynamics
-- **Emails**: Timing patterns are crucial communication health indicators
-- **Adaptive**: Weights adjust automatically based on communication type
 
 ## 🔄 LLM Prompt Engineering Strategy
 
@@ -225,14 +221,3 @@ All LLM calls use strict JSON schemas with:
   }
 }
 ```
-
-## 🎯 Value Proposition
-
-This approach provides:
-1. **Objective Insights**: Data-driven health scores with clear methodology
-2. **Actionable Recommendations**: Specific, prioritized improvement suggestions  
-3. **Early Warning System**: Conflict detection before escalation
-4. **Contextual Analysis**: Appropriate metrics for different communication types
-5. **Scalable Framework**: Easy to extend with new metrics or communication channels
-
-The system transforms subjective "relationship health" into measurable, actionable intelligence for improving workplace communication effectiveness.
