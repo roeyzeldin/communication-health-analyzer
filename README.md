@@ -2,6 +2,50 @@
 
 A LangGraph-powered system for analyzing communication health in email threads and meeting transcripts, providing structured insights into relationship dynamics and communication effectiveness.
 
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 16+ installed
+- GROQ API key (free)
+
+### Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/roeyzeldin/communication-health-analyzer.git
+   cd communication-health-analyzer
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Get your free GROQ API key:**
+   - Go to [console.groq.com](https://console.groq.com)
+   - Sign up for a free account
+   - Navigate to "API Keys" section
+   - Create a new API key
+   - Copy the key (starts with `gsk_...`)
+
+4. **Configure environment:**
+   ```bash
+   # Copy the example environment file
+   cp .env.example .env
+   
+   # Edit .env and add your GROQ API key:
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
+
+5. **Start the application:**
+   ```bash
+   npm start
+   ```
+
+6. **Open your browser:**
+   - Go to `http://localhost:3000`
+   - Try the sample scenarios or paste your own email threads/meeting transcripts
+
 ## 🏗️ Graph Structure
 
 ### LangGraph Workflow Architecture
@@ -13,17 +57,15 @@ graph TD
     A[emailParser] --> B{Communication Type}
     B -->|Email/Mixed| C[sentimentAnalyzer]
     B -->|Email/Mixed| D[responseTimeAnalyzer]
-    B -->|Any Type| E[conflictDetector]
-    B -->|Meeting Only| F[sentimentAnalyzer]
-    B -->|Meeting Only| G[conflictDetector]
+    B -->|Email/Mixed| E[conflictDetector]
+    B -->|Meeting Only| C
+    B -->|Meeting Only| E
     
-    C --> H[healthAggregator]
-    D --> H
-    E --> H
-    F --> H
-    G --> H
+    C --> F[healthAggregator]
+    D --> F
+    E --> F
     
-    H --> I[Final Health Report]
+    F --> G[Structured Health Report]
 ```
 
 ### Node Execution Flow
@@ -33,21 +75,17 @@ graph TD
    - **sentimentAnalyzer**: LLM-powered emotional analysis
    - **responseTimeAnalyzer**: Mathematical response time patterns (emails only)
    - **conflictDetector**: LLM-powered conflict and relationship analysis
-3. **healthAggregator**: Combines metrics using weighted scoring and generates LLM insights
+3. **healthAggregator**: Combines metrics using weighted scoring and generates LLM insights with actionable recommendations
 
 ### Conditional Routing Logic
 
-```javascript
-function routeAfterParser(state) {
-    if (state.type === 'meeting') {
-        // Skip response time analysis for real-time conversations
-        return ['sentimentAnalyzer', 'conflictDetector'];
-    } else {
-        // Include all analysis for asynchronous communication
-        return ['sentimentAnalyzer', 'responseTimeAnalyzer', 'conflictDetector'];
-    }
-}
-```
+The system intelligently routes analysis based on communication type:
+
+- **For Email Communications**: All three analysis nodes run in parallel (sentiment, response time, conflict)
+- **For Meeting Transcripts**: Only sentiment and conflict analysis run (response time is irrelevant for real-time conversations)
+- **For Mixed Communications**: Treats as email type and includes all analysis
+
+This conditional routing ensures each communication type gets the most relevant analysis while avoiding unnecessary processing.
 
 ## 🎯 Modeling Approach
 
